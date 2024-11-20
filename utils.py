@@ -1,5 +1,4 @@
 import datetime as dt
-import math
 import re
 
 import matplotlib as mpl
@@ -7,7 +6,9 @@ import numpy as np
 
 
 def slug(input_string: str) -> str:
-    # Remove non-word characters (everything except numbers and letters)
+    # Remove leading and trailing spaces
+    input_string = input_string.strip()
+    # Remove non-word characters (everything except numbers, underscores and letters)
     s = re.sub(r"[^\w\s]", '', input_string)
     # Replace all runs of whitespace with a single dash
     s = re.sub(r"\s+", '-', s)
@@ -45,19 +46,6 @@ def decimal_to_dms(value: float) -> str:
 def format_func(value, tick_number):
     # a custom ticker formatter function
     return decimal_to_dms(value)
-
-
-def haversine_distance(lat1, lon1, lat2, lon2) -> float:
-    # Geodetic distance between two points, in km
-    R = 6371.0  # Earth radius in kilometers
-
-    dlat = math.radians(lat2 - lat1)
-    dlon = math.radians(lon2 - lon1)
-
-    a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
-    return R * c
 
 
 def km_to_nm(dist: float) -> float:
